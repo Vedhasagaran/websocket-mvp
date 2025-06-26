@@ -1,0 +1,35 @@
+<DOCTYPE html>
+<html>
+    <head>
+        <title>Websocket Mvp</title>
+    </head>
+    <body>
+        <h1>Websocket Test</h1>
+        <input type="text" id="message" placeholder="Type your message here">
+        <button Onclick="sendMessage()">Send</button>
+        <div id="output"></div>
+
+        <script>
+            const ws = new WebSocket('ws://localhost:8080');
+            const output = document.getElementById('output');
+
+            ws.onopen = () => {
+                output.innerHTML += '<p>WebSocket connection established.</p>';
+            };
+
+            ws.onmessage = (event) => {
+                output.innerHTML += `<p>Received: ${event.data}</p>`;
+            };
+
+            ws.onclose = () => {
+                output.innerHTML += '<p>WebSocket connection closed.</p>';
+            };
+
+            function sendMessage() {
+                const message = document.getElementById('message').value;
+                ws.send(message);
+                document.getElementById('message').value = ''; // Clear input field
+            }
+        </script>
+    </body>
+</html>
